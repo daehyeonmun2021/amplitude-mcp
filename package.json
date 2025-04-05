@@ -1,0 +1,23 @@
+{
+  "name": "amplitude-mcp",
+  "version": "0.0.1",
+  "description": "Model Context Protocol server for Amplitude",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "npx tsc --watch",
+    "inspect": "npx @modelcontextprotocol/inspector node dist/index.js"
+  },
+  "keywords": [
+    "amplitude",
+    "mcp"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.8.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}

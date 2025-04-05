@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "~/*": ["./src/*"]
+    },
+    "target": "es2020",
+    "module": "nodenext",
+    "outDir": "./dist",
+    "skipLibCheck": true
+  }
+}
