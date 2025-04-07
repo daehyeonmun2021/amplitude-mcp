@@ -6,7 +6,8 @@ import { eventsResourceTemplate, eventsResourceHandler } from "./resources/event
 import { EventSegmentationEvent, EventSegmentationFilter, EventSegmentationBreakdown } from "./types/amplitude.js";
 import { getAmplitudeCredentials } from "./utils/config.js";
 
-const server = new McpServer({
+// Create MCP server
+export const server = new McpServer({
   name: "amplitude-mcp",
   version: "0.0.1",
   description: "MCP server for Amplitude Analytics API"

@@ -6,7 +6,15 @@
     },
     "target": "es2020",
     "module": "nodenext",
+    "moduleResolution": "nodenext",
     "outDir": "./dist",
-    "skipLibCheck": true
-  }
+    "skipLibCheck": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "strict": false,
+    "noImplicitAny": false,
+    "sourceMap": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

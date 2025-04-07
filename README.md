@@ -13,8 +13,22 @@ This MCP server enables AI assistants and other MCP clients to interact with the
 ## Installation
 
 ```json
-
+{
+  "mcpServers": {
+    "amplitude": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "amplitude-mcp",
+        "--amplitude-api-key=YOUR_API_KEY",
+        "--amplitude-secret-key=YOUR_SECRET_KEY"
+      ]
+    }
+  }
+}
 ```
+
+### Required Credentials
 
 Amplitude API credentials must be provided using command line arguments:
 
@@ -136,6 +150,8 @@ amplitude-mcp/
 │   │   └── amplitude.ts          # Amplitude API types
 │   └── utils/
 │       └── config.ts             # Configuration and credential handling
+├── bin/
+│   └── cli.js                    # CLI entry point
 ├── dist/                         # Compiled JavaScript files
 ├── package.json
 └── tsconfig.json

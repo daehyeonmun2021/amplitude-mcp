@@ -4,10 +4,15 @@
   "description": "Model Context Protocol server for Amplitude",
   "type": "module",
   "main": "dist/index.js",
+  "bin": {
+    "amplitude-mcp": "./bin/cli.js"
+  },
   "scripts": {
     "dev": "npx tsc --watch",
     "inspect": "npx @modelcontextprotocol/inspector node dist/index.js",
-    "start": "node dist/index.js --amplitude-api-key=YOUR_API_KEY --amplitude-secret-key=YOUR_SECRET_KEY"
+    "start": "node dist/index.js --amplitude-api-key=YOUR_API_KEY --amplitude-secret-key=YOUR_SECRET_KEY",
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "amplitude",
@@ -25,5 +30,9 @@
   },
   "devDependencies": {
     "typescript": "^5.8.3"
-  }
+  },
+  "files": [
+    "dist",
+    "bin"
+  ]
 }
