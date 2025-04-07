@@ -1,13 +1,13 @@
 import { ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { amplitudeService } from "../services/amplitude.service.js";
-import { AmplitudeCredentials } from "../types/amplitude.js";
+import { getAmplitudeCredentials } from "../utils/config.js";
 
 /**
  * Resource template for accessing Amplitude event data
- * Format: amplitude://events/{apiKey}/{secretKey}/{eventType}/{start}/{end}
+ * Format: amplitude://events/{eventType}/{start}/{end}
  */
 export const eventsResourceTemplate = new ResourceTemplate(
-  "amplitude://events/{apiKey}/{secretKey}/{eventType}/{start}/{end}",
+  "amplitude://events/{eventType}/{start}/{end}",
   { list: undefined }
 );
 
@@ -16,20 +16,19 @@ export const eventsResourceTemplate = new ResourceTemplate(
  */
 export const eventsResourceHandler = async (uri: URL, params: Record<string, string>) => {
   try {
-    const { apiKey, secretKey, eventType, start, end } = params;
+    const { eventType, start, end } = params;
     
-    if (!apiKey || !secretKey || !eventType || !start || !end) {
+    if (!eventType || !start || !end) {
       return {
         contents: [
           {
             uri: uri.href,
-            text: "Missing required parameters. Format: amplitude://events/{apiKey}/{secretKey}/{eventType}/{start}/{end}"
+            text: "Missing required parameters. Format: amplitude://events/{eventType}/{start}/{end}"
           }
         ]
       };
     }
-    
-    const credentials: AmplitudeCredentials = { apiKey, secretKey };
+    const credentials = getAmplitudeCredentials();
     
     // Query events
     const result = await amplitudeService.queryEvents(credentials, {

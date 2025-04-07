@@ -6,7 +6,8 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "npx tsc --watch",
-    "inspect": "npx @modelcontextprotocol/inspector node dist/index.js"
+    "inspect": "npx @modelcontextprotocol/inspector node dist/index.js",
+    "start": "node dist/index.js --amplitude-api-key=YOUR_API_KEY --amplitude-secret-key=YOUR_SECRET_KEY"
   },
   "keywords": [
     "amplitude",
@@ -17,7 +18,9 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.8.0",
     "@types/node-fetch": "^2.6.12",
+    "@types/yargs": "^17.0.33",
     "node-fetch": "^2.7.0",
+    "yargs": "^17.7.2",
     "zod": "^3.24.2"
   },
   "devDependencies": {

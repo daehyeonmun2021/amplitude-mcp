@@ -4,6 +4,7 @@ import { z } from "zod";
 import { amplitudeService } from "./services/amplitude.service.js";
 import { eventsResourceTemplate, eventsResourceHandler } from "./resources/events.js";
 import { EventSegmentationEvent, EventSegmentationFilter, EventSegmentationBreakdown } from "./types/amplitude.js";
+import { getAmplitudeCredentials } from "./utils/config.js";
 
 const server = new McpServer({
   name: "amplitude-mcp",
@@ -13,8 +14,6 @@ const server = new McpServer({
 
 server.tool("query_events",
   {
-    apiKey: z.string().min(1, "API key is required"),
-    secretKey: z.string().min(1, "Secret key is required"),
     events: z.array(z.object({
       eventType: z.string().min(1, "Event type is required"),
       propertyFilters: z.array(z.object({
@@ -30,14 +29,14 @@ server.tool("query_events",
         ])
       })).optional()
     })).min(1, "At least one event is required"),
-    start: z.string().regex(/^\d{6}/, "Start date must be in YYYYMMDD format"),
-    end: z.string().regex(/^\d{6}/, "End date must be in YYYYMMDD format"),
+    start: z.string().regex(/^\d{8}/, "Start date must be in YYYYMMDD format"),
+    end: z.string().regex(/^\d{8}/, "End date must be in YYYYMMDD format"),
     interval: z.enum(['day', 'week', 'month']).optional(),
     groupBy: z.string().optional()
   },
-  async ({ apiKey, secretKey, events, start, end, interval, groupBy }) => {
+  async ({ events, start, end, interval, groupBy }) => {
     try {
-      const credentials = { apiKey, secretKey };
+      const credentials = getAmplitudeCredentials();
 
       const queryParams = {
         events: events as EventSegmentationEvent[],
@@ -75,8 +74,6 @@ server.tool("query_events",
 
 server.tool("segment_events",
   {
-    apiKey: z.string().min(1, "API key is required"),
-    secretKey: z.string().min(1, "Secret key is required"),
     events: z.array(z.object({
       eventType: z.string().min(1, "Event type is required"),
       propertyFilters: z.array(z.object({
@@ -92,8 +89,8 @@ server.tool("segment_events",
         ])
       })).optional()
     })).min(1, "At least one event is required"),
-    start: z.string().regex(/^\d{6}/, "Start date must be in YYYYMMDD format"),
-    end: z.string().regex(/^\d{6}/, "End date must be in YYYYMMDD format"),
+    start: z.string().regex(/^\d{8}/, "Start date must be in YYYYMMDD format"),
+    end: z.string().regex(/^\d{8}/, "End date must be in YYYYMMDD format"),
     interval: z.enum(['day', 'week', 'month']).optional(),
     groupBy: z.string().optional(),
     filters: z.array(z.object({
@@ -114,9 +111,9 @@ server.tool("segment_events",
       propertyName: z.string()
     })).optional()
   },
-  async ({ apiKey, secretKey, events, start, end, interval, groupBy, filters, breakdowns }) => {
+  async ({ events, start, end, interval, groupBy, filters, breakdowns }) => {
     try {
-      const credentials = { apiKey, secretKey };
+      const credentials = getAmplitudeCredentials();
 
       const queryParams = {
         events: events as EventSegmentationEvent[],
