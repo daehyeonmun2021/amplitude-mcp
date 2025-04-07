@@ -31,19 +31,6 @@ export const eventsResourceHandler = async (uri: URL, params: Record<string, str
     
     const credentials: AmplitudeCredentials = { apiKey, secretKey };
     
-    // Validate credentials
-    const isValid = await amplitudeService.validateCredentials(credentials);
-    if (!isValid) {
-      return {
-        contents: [
-          {
-            uri: uri.href,
-            text: "Invalid Amplitude API credentials. Please check your API key and secret key."
-          }
-        ]
-      };
-    }
-    
     // Query events
     const result = await amplitudeService.queryEvents(credentials, {
       events: [{ eventType }],

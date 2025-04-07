@@ -19,14 +19,13 @@ export class AmplitudeService {
     credentials: AmplitudeCredentials,
     params: EventSegmentationParams
   ): Promise<EventSegmentationResponse> {
-    const url = `${this.baseUrl}/events/segmentation`;
+    const url = `${this.baseUrl}/events/segmentation?e={"event_type":"${params.events[0].eventType}"}&start=${params.start}&end=${params.end}`;
     const headers = this.buildHeaders(credentials);
     
     try {
       const response = await fetch(url, {
-        method: 'POST',
+        method: 'GET',
         headers,
-        body: JSON.stringify(params)
       });
       
       if (!response.ok) {
@@ -42,29 +41,7 @@ export class AmplitudeService {
       throw new Error('Unknown error occurred while querying events');
     }
   }
-  
-  /**
-   * Validate Amplitude API credentials
-   * @param credentials Amplitude API credentials
-   * @returns True if credentials are valid
-   */
-  async validateCredentials(credentials: AmplitudeCredentials): Promise<boolean> {
-    try {
-      // Use a simple API call to validate credentials
-      const url = `${this.baseUrl}/projects`;
-      const headers = this.buildHeaders(credentials);
-      
-      const response = await fetch(url, {
-        method: 'GET',
-        headers
-      });
-      
-      return response.ok;
-    } catch (error) {
-      return false;
-    }
-  }
-  
+
   /**
    * Build headers for Amplitude API requests
    * @param credentials Amplitude API credentials

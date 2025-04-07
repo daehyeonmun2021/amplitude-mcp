@@ -30,8 +30,8 @@ server.tool("query_events",
         ])
       })).optional()
     })).min(1, "At least one event is required"),
-    start: z.string().regex(/^\d{4}-\d{2}-\d{2}/, "Start date must be in YYYY-MM-DD format"),
-    end: z.string().regex(/^\d{4}-\d{2}-\d{2}/, "End date must be in YYYY-MM-DD format"),
+    start: z.string().regex(/^\d{6}/, "Start date must be in YYYYMMDD format"),
+    end: z.string().regex(/^\d{6}/, "End date must be in YYYYMMDD format"),
     interval: z.enum(['day', 'week', 'month']).optional(),
     groupBy: z.string().optional()
   },
@@ -46,17 +46,6 @@ server.tool("query_events",
         interval,
         groupBy
       };
-
-      const isValid = await amplitudeService.validateCredentials(credentials);
-      if (!isValid) {
-        return {
-          content: [{ 
-            type: "text", 
-            text: "Invalid Amplitude API credentials. Please check your API key and secret key." 
-          }],
-          isError: true
-        };
-      }
 
       const result = await amplitudeService.queryEvents(credentials, queryParams);
 
@@ -103,8 +92,8 @@ server.tool("segment_events",
         ])
       })).optional()
     })).min(1, "At least one event is required"),
-    start: z.string().regex(/^\d{4}-\d{2}-\d{2}/, "Start date must be in YYYY-MM-DD format"),
-    end: z.string().regex(/^\d{4}-\d{2}-\d{2}/, "End date must be in YYYY-MM-DD format"),
+    start: z.string().regex(/^\d{6}/, "Start date must be in YYYYMMDD format"),
+    end: z.string().regex(/^\d{6}/, "End date must be in YYYYMMDD format"),
     interval: z.enum(['day', 'week', 'month']).optional(),
     groupBy: z.string().optional(),
     filters: z.array(z.object({
@@ -138,17 +127,6 @@ server.tool("segment_events",
         filters: filters as EventSegmentationFilter[] | undefined,
         breakdowns: breakdowns as EventSegmentationBreakdown[] | undefined
       };
-
-      const isValid = await amplitudeService.validateCredentials(credentials);
-      if (!isValid) {
-        return {
-          content: [{ 
-            type: "text", 
-            text: "Invalid Amplitude API credentials. Please check your API key and secret key." 
-          }],
-          isError: true
-        };
-      }
 
       const result = await amplitudeService.queryEvents(credentials, queryParams);
       
